@@ -1,7 +1,6 @@
 import { Flex } from "antd";
+import AgeGroupPriceList from "./components/AgeGroupPriceList";
 import { styled } from "styled-components";
-import AgeGroupSelect from "./components/AgeGroupSelect";
-import PriceInput from "./components/PriceInput";
 
 const StyledContainer = styled(Flex)`
   margin-top: 50px;
@@ -10,9 +9,8 @@ const StyledContainer = styled(Flex)`
 export default function App() {
   return (
     <Flex justify="center">
-      <StyledContainer>
-        <AgeGroupSelect />
-        <PriceInput />
+      <StyledContainer vertical>
+        <AgeGroupPriceList onChange={(result) => console.log(result)} />
       </StyledContainer>
     </Flex>
   );

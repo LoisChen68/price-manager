@@ -36,7 +36,7 @@ function addComma(value) {
   return result;
 }
 
-export default function PriceInput() {
+export default function PriceInput({ id, setAgeGroupPrice }) {
   const [price, setPrice] = useState(0);
 
   return (
@@ -47,7 +47,19 @@ export default function PriceInput() {
         addonBefore={<Text>TWD</Text>}
         placeholder="請輸入費用"
         formatter={(value) => addComma(value)}
-        onChange={(value) => setPrice(value)}
+        onChange={(value) => {
+          setPrice(value);
+          setAgeGroupPrice((pre) => {
+            const exist = pre.some((p) => p.id === id);
+            if (exist) {
+              return pre.map((p) =>
+                p.id === id ? { ...p, price: Number(value) } : p
+              );
+            } else {
+              return [...pre, { id, price: Number(value) }];
+            }
+          });
+        }}
         verify={price === null ? "error" : ""}
         stringMode
       />

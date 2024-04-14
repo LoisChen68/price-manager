@@ -22,9 +22,12 @@ const StyledInput = styled(Input)`
   text-align: center;
 `;
 
-export default function AgeGroupSelect() {
+export default function AgeGroupSelect({ id, setAgeGroupPrice }) {
+  const [startAge, setStartAge] = useState(0);
+  const [endAge, setEndAge] = useState(0);
   const [startAgeOptions, setStartAgeOptions] = useState(ageOptions);
   const [endAgeOptions, setEndAgeOptions] = useState(ageOptions);
+
   return (
     <Flex vertical>
       <Text type="secondary">年齡</Text>
@@ -41,6 +44,17 @@ export default function AgeGroupSelect() {
               }
             });
             setEndAgeOptions(options);
+            setStartAge(value);
+            setAgeGroupPrice((pre) => {
+              const exist = pre.some((p) => p.id === id);
+              if (exist) {
+                return pre.map((p) =>
+                  p.id === id ? { ...p, ageGroup: [value, endAge] } : p
+                );
+              } else {
+                return [...pre, { id, ageGroup: [value, endAge] }];
+              }
+            });
           }}
         />
         <StyledInput className="site-input-split" placeholder="～" disabled />
@@ -56,6 +70,17 @@ export default function AgeGroupSelect() {
               }
             });
             setStartAgeOptions(options);
+            setEndAge(value);
+            setAgeGroupPrice((pre) => {
+              const exist = pre.some((p) => p.id === id);
+              if (exist) {
+                return pre.map((p) =>
+                  p.id === id ? { ...p, ageGroup: [startAge, value] } : p
+                );
+              } else {
+                return [...pre, { id, ageGroup: [startAge, value] }];
+              }
+            });
           }}
         />
       </Space.Compact>
