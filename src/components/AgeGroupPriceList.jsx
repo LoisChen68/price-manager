@@ -21,6 +21,10 @@ const StyledTitle = styled(Typography.Title)`
   }
 `;
 
+const StyledTitleGroupButton = styled(Flex)`
+  margin-bottom: 20px;
+`;
+
 export default function AgeGroupPriceList({ onChange }) {
   const [ageGroupPriceIds, setAgeGroupPriceIds] = useState(groupIds);
   const [ageGroupPrice, setAgeGroupPrice] = useState([]);
@@ -37,7 +41,7 @@ export default function AgeGroupPriceList({ onChange }) {
     <>
       {ageGroupPriceIds.map((item, index) => (
         <div key={item.id}>
-          <Flex justify="space-between" align="center">
+          <StyledTitleGroupButton justify="space-between" align="center">
             <StyledTitle level={5}>{`價格設定 - ${index + 1}`}</StyledTitle>
             {index !== 0 && (
               <StyledButton
@@ -47,15 +51,23 @@ export default function AgeGroupPriceList({ onChange }) {
                   const filterAgeGroupPriceIds = ageGroupPriceIds.filter(
                     (ageGroupPrice) => ageGroupPrice.id !== item.id
                   );
+                  const filterAgeGroupPrice = ageGroupPrice.filter(
+                    (ageGroupPrice) => ageGroupPrice.id !== item.id
+                  );
                   setAgeGroupPriceIds(filterAgeGroupPriceIds);
+                  setAgeGroupPrice(filterAgeGroupPrice);
                 }}
               >
                 X 移除
               </StyledButton>
             )}
-          </Flex>
+          </StyledTitleGroupButton>
           <Flex>
-            <AgeGroupSelect id={item.id} setAgeGroupPrice={setAgeGroupPrice} />
+            <AgeGroupSelect
+              id={item.id}
+              setAgeGroupPrice={setAgeGroupPrice}
+              ageGroupPrice={ageGroupPrice}
+            />
             <PriceInput id={item.id} setAgeGroupPrice={setAgeGroupPrice} />
           </Flex>
           {index !== ageGroupPriceIds.length - 1 && <Divider />}
