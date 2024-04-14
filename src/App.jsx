@@ -1,7 +1,7 @@
 import { Flex } from "antd";
 import { styled } from "styled-components";
-import AgeGroupSelect from "./AgeGroupSelect";
-import PriceInput from "./PriceInput";
+import AgeGroupSelect from "./components/AgeGroupSelect";
+import PriceInput from "./components/PriceInput";
 
 const StyledContainer = styled(Flex)`
   margin-top: 50px;
