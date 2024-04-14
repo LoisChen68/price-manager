@@ -20,6 +20,22 @@ const StyledHightLightText = styled(Text)`
   padding: 2px 5px 2px 5px;
 `;
 
+function addComma(value) {
+  let str = value.toString();
+  let decimalPart = "";
+  if (str.includes(".")) {
+    [str, decimalPart] = str.split(".");
+  }
+  let result = str.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  if (decimalPart) {
+    result += "." + decimalPart;
+  }
+  if (!value) {
+    result = "";
+  }
+  return result;
+}
+
 export default function PriceInput() {
   const [price, setPrice] = useState(0);
 
@@ -30,8 +46,10 @@ export default function PriceInput() {
         defaultValue={price}
         addonBefore={<Text>TWD</Text>}
         placeholder="請輸入費用"
+        formatter={(value) => addComma(value)}
         onChange={(value) => setPrice(value)}
         verify={price === null ? "error" : ""}
+        stringMode
       />
       {price === null && (
         <StyledHightLightText type="danger">不可以為空白</StyledHightLightText>
