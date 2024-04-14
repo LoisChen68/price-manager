@@ -1,4 +1,4 @@
-import { Typography, Space, Select, Input } from "antd";
+import { Typography, Space, Select, Input, Flex } from "antd";
 import { styled } from "styled-components";
 import { useState } from "react";
 
@@ -26,7 +26,7 @@ export default function AgeGroupSelect() {
   const [startAgeOptions, setStartAgeOptions] = useState(ageOptions);
   const [endAgeOptions, setEndAgeOptions] = useState(ageOptions);
   return (
-    <>
+    <Flex vertical>
       <Text type="secondary">年齡</Text>
       <Space.Compact block>
         <StyledSelect
@@ -59,6 +59,6 @@ export default function AgeGroupSelect() {
           }}
         />
       </Space.Compact>
-    </>
+    </Flex>
   );
 }
