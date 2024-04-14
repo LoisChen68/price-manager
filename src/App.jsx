@@ -1,3 +1,17 @@
+import { Flex } from "antd";
+import { styled } from "styled-components";
+import AgeGroupSelect from "./AgeGroupSelect";
+
+const StyledContainer = styled.div`
+  margin-top: 50px;
+`;
+
 export default function App() {
-  return <h1>Hi</h1>;
+  return (
+    <Flex justify="center">
+      <StyledContainer>
+        <AgeGroupSelect />
+      </StyledContainer>
+    </Flex>
+  );
 }
