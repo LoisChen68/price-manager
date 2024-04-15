@@ -97,6 +97,18 @@ export default function AgeGroupSelect({
   const overlay = getNumberIntervals(ageGroup).overlay;
   const isOverlay = overlay.flat().some((v) => v !== undefined);
 
+  const updateAgeGroupPrice = (newAgeGroup) => {
+    const exist = ageGroupPrice.some((p) => p.id === id);
+    if (exist) {
+      const updateAgeGroup = ageGroupPrice.map((p) =>
+        p.id === id ? { ...p, ageGroup: newAgeGroup } : p
+      );
+      setAgeGroupPrice(updateAgeGroup);
+    } else {
+      setAgeGroupPrice([...ageGroupPrice, { id, ageGroup: newAgeGroup }]);
+    }
+  };
+
   return (
     <StyledAgeGroupSelectContainer vertical>
       <Flex vertical>
@@ -116,16 +128,7 @@ export default function AgeGroupSelect({
               });
               setEndAgeOptions(options);
               setStartAge(value);
-              setAgeGroupPrice((pre) => {
-                const exist = pre.some((p) => p.id === id);
-                if (exist) {
-                  return pre.map((p) =>
-                    p.id === id ? { ...p, ageGroup: [value, endAge] } : p
-                  );
-                } else {
-                  return [...pre, { id, ageGroup: [value, endAge] }];
-                }
-              });
+              updateAgeGroupPrice([value, endAge]);
             }}
           />
           <StyledInput className="site-input-split" placeholder="～" disabled />
@@ -143,16 +146,7 @@ export default function AgeGroupSelect({
               });
               setStartAgeOptions(options);
               setEndAge(value);
-              setAgeGroupPrice((pre) => {
-                const exist = pre.some((p) => p.id === id);
-                if (exist) {
-                  return pre.map((p) =>
-                    p.id === id ? { ...p, ageGroup: [startAge, value] } : p
-                  );
-                } else {
-                  return [...pre, { id, ageGroup: [startAge, value] }];
-                }
-              });
+              updateAgeGroupPrice([startAge, value]);
             }}
           />
         </Space.Compact>

@@ -39,6 +39,20 @@ function addComma(value) {
 export default function PriceInput({ id, setAgeGroupPrice }) {
   const [price, setPrice] = useState(0);
 
+  const handleChange = (value) => {
+    setPrice(value);
+    setAgeGroupPrice((pre) => {
+      const exist = pre.some((p) => p.id === id);
+      if (exist) {
+        return pre.map((p) =>
+          p.id === id ? { ...p, price: Number(value) } : p
+        );
+      } else {
+        return [...pre, { id, price: Number(value) }];
+      }
+    });
+  };
+
   return (
     <Flex vertical>
       <Text type="secondary">入住費用（每人每晚）</Text>
@@ -47,19 +61,7 @@ export default function PriceInput({ id, setAgeGroupPrice }) {
         addonBefore={<Text>TWD</Text>}
         placeholder="請輸入費用"
         formatter={(value) => addComma(value)}
-        onChange={(value) => {
-          setPrice(value);
-          setAgeGroupPrice((pre) => {
-            const exist = pre.some((p) => p.id === id);
-            if (exist) {
-              return pre.map((p) =>
-                p.id === id ? { ...p, price: Number(value) } : p
-              );
-            } else {
-              return [...pre, { id, price: Number(value) }];
-            }
-          });
-        }}
+        onChange={(value) => handleChange(value)}
         verify={price === null ? "error" : ""}
         stringMode
         size="large"
