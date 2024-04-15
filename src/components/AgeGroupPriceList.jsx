@@ -6,7 +6,7 @@ import { v4 } from "uuid";
 import { styled } from "styled-components";
 import { Divider } from "antd";
 
-const groupIds = [{ id: v4() }];
+const groupInitId = v4();
 const StyledButton = styled(Button)`
   width: fit-content;
   color: ${(props) => props.color};
@@ -26,34 +26,34 @@ const StyledTitleGroupButton = styled(Flex)`
 `;
 
 export default function AgeGroupPriceList({ onChange }) {
-  const [ageGroupPriceIds, setAgeGroupPriceIds] = useState(groupIds);
-  const [ageGroupPrice, setAgeGroupPrice] = useState([]);
+  const [ageGroupPrice, setAgeGroupPrice] = useState([
+    { id: groupInitId, ageGroup: [0, 0], price: 0 },
+  ]);
 
   useEffect(() => {
     const result = ageGroupPrice.map((v) => ({
       ageGroup: v.ageGroup,
-      price: !v.price ? 0 : v.price,
+      price: v.price,
     }));
     onChange(result);
   }, [onChange, ageGroupPrice]);
 
   const handleRemoveClick = (item) => {
-    const filterAgeGroupPriceIds = ageGroupPriceIds.filter(
-      (ageGroupPrice) => ageGroupPrice.id !== item.id
-    );
     const filterAgeGroupPrice = ageGroupPrice.filter(
       (ageGroupPrice) => ageGroupPrice.id !== item.id
     );
-    setAgeGroupPriceIds(filterAgeGroupPriceIds);
     setAgeGroupPrice(filterAgeGroupPrice);
   };
 
   const handleAddAgeGroupPriceIdClick = () => {
-    setAgeGroupPriceIds([...ageGroupPriceIds, { id: v4() }]);
+    setAgeGroupPrice([
+      ...ageGroupPrice,
+      { id: v4(), ageGroup: [0, 0], price: 0 },
+    ]);
   };
   return (
     <>
-      {ageGroupPriceIds.map((item, index) => (
+      {ageGroupPrice.map((item, index) => (
         <Fragment key={item.id}>
           <StyledTitleGroupButton justify="space-between" align="center">
             <StyledTitle level={5}>{`價格設定 - ${index + 1}`}</StyledTitle>
@@ -79,7 +79,7 @@ export default function AgeGroupPriceList({ onChange }) {
               <PriceInput id={item.id} setAgeGroupPrice={setAgeGroupPrice} />
             </Col>
           </Row>
-          {index !== ageGroupPriceIds.length - 1 && <Divider />}
+          {index !== ageGroupPrice.length - 1 && <Divider />}
         </Fragment>
       ))}
       <StyledButton
