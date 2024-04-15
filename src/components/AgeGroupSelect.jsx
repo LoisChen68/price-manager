@@ -91,9 +91,10 @@ export default function AgeGroupSelect({
   const [endAge, setEndAge] = useState(0);
   const [startAgeOptions, setStartAgeOptions] = useState(ageOptions);
   const [endAgeOptions, setEndAgeOptions] = useState(ageOptions);
-  const overlay = getNumberIntervals(
-    ageGroupPrice.map((v) => v.ageGroup)
-  ).overlay;
+  const ageGroup = ageGroupPrice.map((v) =>
+    !!v.ageGroup ? v.ageGroup : [0, 0]
+  );
+  const overlay = getNumberIntervals(ageGroup).overlay;
   const isOverlay = overlay.flat().some((v) => v !== undefined);
 
   return (
