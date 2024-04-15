@@ -72,12 +72,14 @@ export default function AgeGroupSelect({
           />
           <StyledInput className="site-input-split" placeholder="～" disabled />
           <StyledSelect
-            verify={!!isOverlap ? "error" : ""}
+            verify={!!isOverlap || endAge < startAge ? "error" : ""}
             value={endAge}
             options={endAgeOptions}
             onChange={(value) => {
               const options = startAgeOptions.map((option) => {
-                if (option.value > value) {
+                if (value === 0) {
+                  return { ...option, disabled: false };
+                } else if (option.value > value) {
                   return { ...option, disabled: true };
                 } else {
                   return { ...option, disabled: false };
@@ -91,6 +93,9 @@ export default function AgeGroupSelect({
         </Space.Compact>
       </Flex>
       {!!isOverlap && <HightLightText type="danger" text="年齡區間不可重疊" />}
+      {endAge < startAge && (
+        <HightLightText type="danger" text="結束年齡不可小於起始年齡" />
+      )}
     </StyledAgeGroupSelectContainer>
   );
 }
