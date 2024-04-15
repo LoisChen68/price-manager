@@ -4,12 +4,6 @@ import { useState } from "react";
 import HightLightText from "./ui/HightLightText";
 import Utils from "../utils";
 
-const maxAge = 20;
-const ageOptions = [];
-for (let i = 0; i < maxAge + 1; i++) {
-  ageOptions.push({ value: i });
-}
-
 const { Text } = Typography;
 
 const StyledSelect = styled(Select)`
@@ -35,14 +29,12 @@ export default function AgeGroupSelect({
   id,
   setAgeGroupPrice,
   ageGroupPrice,
+  isOverlap,
 }) {
   const [startAge, setStartAge] = useState(0);
   const [endAge, setEndAge] = useState(0);
-  const [startAgeOptions, setStartAgeOptions] = useState(ageOptions);
-  const [endAgeOptions, setEndAgeOptions] = useState(ageOptions);
-  const ageGroup = ageGroupPrice.map((v) => v.ageGroup);
-  const overlap = Utils.getNumberIntervals(ageGroup).overlap;
-  const isOverlap = overlap.flat().some((v) => v !== undefined);
+  const [startAgeOptions, setStartAgeOptions] = useState(Utils.ageOptions);
+  const [endAgeOptions, setEndAgeOptions] = useState(Utils.ageOptions);
 
   const updateAgeGroupPrice = (newAgeGroup) => {
     const exist = ageGroupPrice.some((p) => p.id === id);
@@ -63,7 +55,7 @@ export default function AgeGroupSelect({
         <Space.Compact size="large">
           <StyledSelect
             verify={!!isOverlap ? "error" : ""}
-            defaultValue="0"
+            value={startAge}
             options={startAgeOptions}
             onChange={(value) => {
               const options = endAgeOptions.map((option) => {
@@ -81,7 +73,7 @@ export default function AgeGroupSelect({
           <StyledInput className="site-input-split" placeholder="～" disabled />
           <StyledSelect
             verify={!!isOverlap ? "error" : ""}
-            defaultValue="0"
+            value={endAge}
             options={endAgeOptions}
             onChange={(value) => {
               const options = startAgeOptions.map((option) => {

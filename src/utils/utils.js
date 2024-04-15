@@ -1,4 +1,13 @@
+const maxAge = 20;
+const ageOptions = [];
+for (let i = 0; i < maxAge + 1; i++) {
+  ageOptions.push({ value: i });
+}
+
 function splitNumberIntervals(arr) {
+  if (arr.length === 0) {
+    return [];
+  }
   const numberIntervals = [];
   let start = arr[0];
   let end = arr[0];
@@ -31,9 +40,8 @@ function getNumberIntervals(arr) {
   numberRangerArr.forEach((value) => {
     numberSet.has(value) ? duplicateSet.add(value) : numberSet.add(value);
   });
-  const maxNumber = Math.max(...numberSet);
   const numberArr = [];
-  for (let i = 0; i < maxNumber + 1; i++) {
+  for (let i = 0; i < maxAge + 1; i++) {
     numberArr.push(i);
   }
 
@@ -64,6 +72,7 @@ function addComma(value) {
 const Utils = {
   getNumberIntervals,
   addComma,
+  ageOptions,
 };
 
 export default Utils;

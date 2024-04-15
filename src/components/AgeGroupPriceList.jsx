@@ -5,6 +5,7 @@ import { Fragment, useEffect, useState } from "react";
 import { v4 } from "uuid";
 import { styled } from "styled-components";
 import { Divider } from "antd";
+import Utils from "../utils";
 
 const groupInitId = v4();
 const StyledButton = styled(Button)`
@@ -29,6 +30,10 @@ export default function AgeGroupPriceList({ onChange }) {
   const [ageGroupPrice, setAgeGroupPrice] = useState([
     { id: groupInitId, ageGroup: [0, 0], price: 0 },
   ]);
+  const ageGroup = ageGroupPrice.map((v) => v.ageGroup);
+  const { overlap, notInclude } = Utils.getNumberIntervals(ageGroup);
+  const isOverlap = overlap.length !== 0;
+  const isNotInclude = !isOverlap && notInclude.length === 0;
 
   useEffect(() => {
     const result = ageGroupPrice.map((v) => ({
@@ -38,14 +43,14 @@ export default function AgeGroupPriceList({ onChange }) {
     onChange(result);
   }, [onChange, ageGroupPrice]);
 
-  const handleRemoveClick = (item) => {
+  const handleRemoveAgeGroupPriceClick = (item) => {
     const filterAgeGroupPrice = ageGroupPrice.filter(
       (ageGroupPrice) => ageGroupPrice.id !== item.id
     );
     setAgeGroupPrice(filterAgeGroupPrice);
   };
 
-  const handleAddAgeGroupPriceIdClick = () => {
+  const handleAddAgeGroupPriceClick = () => {
     setAgeGroupPrice([
       ...ageGroupPrice,
       { id: v4(), ageGroup: [0, 0], price: 0 },
@@ -61,7 +66,7 @@ export default function AgeGroupPriceList({ onChange }) {
               <StyledButton
                 type="text"
                 color="red"
-                onClick={() => handleRemoveClick(item)}
+                onClick={() => handleRemoveAgeGroupPriceClick(item)}
               >
                 X 移除
               </StyledButton>
@@ -73,6 +78,7 @@ export default function AgeGroupPriceList({ onChange }) {
                 id={item.id}
                 setAgeGroupPrice={setAgeGroupPrice}
                 ageGroupPrice={ageGroupPrice}
+                isOverlap={isOverlap}
               />
             </Col>
             <Col xs={{ span: 24 }} sm={{ span: 12 }}>
@@ -85,7 +91,8 @@ export default function AgeGroupPriceList({ onChange }) {
       <StyledButton
         type="text"
         color="#08979c"
-        onClick={handleAddAgeGroupPriceIdClick}
+        onClick={handleAddAgeGroupPriceClick}
+        disabled={isNotInclude}
       >
         + 新增價格設定
       </StyledButton>
