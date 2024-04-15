@@ -33,4 +33,36 @@ describe("getNumberIntervals", () => {
     expect(overlap).toEqual(result.overlap);
     expect(notInclude).toEqual(result.notInclude);
   });
+
+  it("Should return the numberIntervals empty overlap array and empty notInclude array", () => {
+    const intervals = [
+      [0, 6],
+      [7, 20],
+    ];
+
+    const result = {
+      overlap: [],
+      notInclude: [],
+    };
+
+    const { overlap, notInclude } = Utils.getNumberIntervals(intervals);
+    expect(overlap).toEqual(result.overlap);
+    expect(notInclude).toEqual(result.notInclude);
+  });
+
+  it("Should return the numberIntervals overlap array and empty notInclude array", () => {
+    const intervals = [
+      [0, 6],
+      [6, 20],
+    ];
+
+    const result = {
+      overlap: [[6, 6]],
+      notInclude: [],
+    };
+
+    const { overlap, notInclude } = Utils.getNumberIntervals(intervals);
+    expect(overlap).toEqual(result.overlap);
+    expect(notInclude).toEqual(result.notInclude);
+  });
 });
