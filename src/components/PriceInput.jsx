@@ -1,6 +1,7 @@
 import { InputNumber, Typography, Flex } from "antd";
 import { styled } from "styled-components";
 import { useState } from "react";
+import HightLightText from "./ui/HightLightText";
 
 const { Text } = Typography;
 
@@ -12,12 +13,6 @@ const StyledInputNumber = styled(InputNumber)`
   .ant-input-number {
     ${(props) => (props.verify === "error" ? `border-color: red;` : "")};
   }
-`;
-
-const StyledHightLightText = styled(Text)`
-  background-color: ${(props) => (props.type === "danger" ? "#FED7D785" : "")};
-  border-radius: 5px;
-  padding: 2px 5px 2px 5px;
 `;
 
 function addComma(value) {
@@ -66,9 +61,7 @@ export default function PriceInput({ id, setAgeGroupPrice }) {
         stringMode
         size="large"
       />
-      {price === null && (
-        <StyledHightLightText type="danger">不可以為空白</StyledHightLightText>
-      )}
+      {price === null && <HightLightText type="danger" text="不可以為空白" />}
       <StyledText type="secondary" align="end">
         輸入 0 表示免費
       </StyledText>

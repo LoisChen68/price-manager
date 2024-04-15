@@ -1,6 +1,7 @@
 import { Typography, Space, Select, Input, Flex } from "antd";
 import { styled } from "styled-components";
 import { useState } from "react";
+import HightLightText from "./ui/HightLightText";
 
 const maxAge = 20;
 const ageOptions = [];
@@ -23,12 +24,6 @@ const StyledInput = styled(Input)`
   border-right: 0;
   pointer-events: none;
   text-align: center;
-`;
-
-const StyledHightLightText = styled(Text)`
-  background-color: ${(props) => (props.type === "danger" ? "#FED7D785" : "")};
-  border-radius: 5px;
-  padding: 2px 5px 2px 5px;
 `;
 
 const StyledAgeGroupSelectContainer = styled(Flex)`
@@ -149,11 +144,7 @@ export default function AgeGroupSelect({
           />
         </Space.Compact>
       </Flex>
-      {!!isOverlay && (
-        <StyledHightLightText type="danger">
-          年齡區間不可重疊
-        </StyledHightLightText>
-      )}
+      {!!isOverlay && <HightLightText type="danger" text="年齡區間不可重疊" />}
     </StyledAgeGroupSelectContainer>
   );
 }
