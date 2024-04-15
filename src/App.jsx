@@ -3,7 +3,7 @@ import AgeGroupPriceList from "./components/AgeGroupPriceList";
 import { styled } from "styled-components";
 
 const StyledContainer = styled(Flex)`
-  margin-top: 50px;
+  margin: 50px 20px 50px 20px;
 `;
 
 export default function App() {

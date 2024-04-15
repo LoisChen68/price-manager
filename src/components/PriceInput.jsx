@@ -62,6 +62,7 @@ export default function PriceInput({ id, setAgeGroupPrice }) {
         }}
         verify={price === null ? "error" : ""}
         stringMode
+        size="large"
       />
       {price === null && (
         <StyledHightLightText type="danger">不可以為空白</StyledHightLightText>

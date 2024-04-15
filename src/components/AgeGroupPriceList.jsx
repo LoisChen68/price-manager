@@ -1,6 +1,6 @@
 import AgeGroupSelect from "./AgeGroupSelect";
 import PriceInput from "./PriceInput";
-import { Flex, Typography, Button } from "antd";
+import { Flex, Typography, Button, Row, Col } from "antd";
 import { useEffect, useState } from "react";
 import { v4 } from "uuid";
 import { styled } from "styled-components";
@@ -62,14 +62,18 @@ export default function AgeGroupPriceList({ onChange }) {
               </StyledButton>
             )}
           </StyledTitleGroupButton>
-          <Flex>
-            <AgeGroupSelect
-              id={item.id}
-              setAgeGroupPrice={setAgeGroupPrice}
-              ageGroupPrice={ageGroupPrice}
-            />
-            <PriceInput id={item.id} setAgeGroupPrice={setAgeGroupPrice} />
-          </Flex>
+          <Row gutter={[8, 8]}>
+            <Col xs={{ span: 24 }} sm={{ span: 12 }}>
+              <AgeGroupSelect
+                id={item.id}
+                setAgeGroupPrice={setAgeGroupPrice}
+                ageGroupPrice={ageGroupPrice}
+              />
+            </Col>
+            <Col xs={{ span: 24 }} sm={{ span: 12 }}>
+              <PriceInput id={item.id} setAgeGroupPrice={setAgeGroupPrice} />
+            </Col>
+          </Row>
           {index !== ageGroupPriceIds.length - 1 && <Divider />}
         </div>
       ))}

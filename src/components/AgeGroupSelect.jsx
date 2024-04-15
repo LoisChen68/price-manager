@@ -11,7 +11,7 @@ for (let i = 0; i < maxAge + 1; i++) {
 const { Text } = Typography;
 
 const StyledSelect = styled(Select)`
-  width: 40%;
+  width: 45%;
   &.ant-select > .ant-select-selector {
     ${(props) => (props.verify === "error" ? "border-color: red;" : "")};
   }
@@ -29,7 +29,10 @@ const StyledHightLightText = styled(Text)`
   background-color: ${(props) => (props.type === "danger" ? "#FED7D785" : "")};
   border-radius: 5px;
   padding: 2px 5px 2px 5px;
-  width: 95%;
+`;
+
+const StyledAgeGroupSelectContainer = styled(Flex)`
+  margin-bottom: 20px;
 `;
 
 function splitNumberIntervals(arr) {
@@ -94,10 +97,10 @@ export default function AgeGroupSelect({
   const isOverlay = overlay.flat().some((v) => v !== undefined);
 
   return (
-    <Flex vertical>
+    <StyledAgeGroupSelectContainer vertical>
       <Flex vertical>
         <Text type="secondary">年齡</Text>
-        <Space.Compact block>
+        <Space.Compact size="large">
           <StyledSelect
             verify={!!isOverlay ? "error" : ""}
             defaultValue="0"
@@ -158,6 +161,6 @@ export default function AgeGroupSelect({
           年齡區間不可重疊
         </StyledHightLightText>
       )}
-    </Flex>
+    </StyledAgeGroupSelectContainer>
   );
 }
