@@ -1,6 +1,16 @@
-# Getting Started with Create React App
+# Price Manager
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Web Link
+
+<a href="https://loischen68.github.io/price-manager/" target="_blank" rel="noreferrer">
+  https://loischen68.github.io/price-manager/
+</a>
+
+## Preview
+
+| Mobile                         | Desktop                       |
+| ------------------------------ | ----------------------------- |
+| ![](./public/Demo_Desktop.png) | ![](./public/Demo_Mobile.png) |
 
 ## Available Scripts
 
