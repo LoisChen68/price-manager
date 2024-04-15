@@ -2,6 +2,7 @@ import { InputNumber, Typography, Flex } from "antd";
 import { styled } from "styled-components";
 import { useState } from "react";
 import HightLightText from "./ui/HightLightText";
+import Utils from "../utils";
 
 const { Text } = Typography;
 
@@ -14,22 +15,6 @@ const StyledInputNumber = styled(InputNumber)`
     ${(props) => (props.verify === "error" ? `border-color: red;` : "")};
   }
 `;
-
-function addComma(value) {
-  let str = value.toString();
-  let decimalPart = "";
-  if (str.includes(".")) {
-    [str, decimalPart] = str.split(".");
-  }
-  let result = str.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  if (decimalPart) {
-    result += "." + decimalPart;
-  }
-  if (!value) {
-    result = "";
-  }
-  return result;
-}
 
 export default function PriceInput({ id, setAgeGroupPrice }) {
   const [price, setPrice] = useState(0);
@@ -55,7 +40,7 @@ export default function PriceInput({ id, setAgeGroupPrice }) {
         defaultValue={price}
         addonBefore={<Text>TWD</Text>}
         placeholder="請輸入費用"
-        formatter={(value) => addComma(value)}
+        formatter={(value) => Utils.addComma(value)}
         onChange={(value) => handleChange(value)}
         verify={price === null ? "error" : ""}
         stringMode

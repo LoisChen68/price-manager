@@ -2,6 +2,7 @@ import { Typography, Space, Select, Input, Flex } from "antd";
 import { styled } from "styled-components";
 import { useState } from "react";
 import HightLightText from "./ui/HightLightText";
+import Utils from "../utils";
 
 const maxAge = 20;
 const ageOptions = [];
@@ -30,53 +31,6 @@ const StyledAgeGroupSelectContainer = styled(Flex)`
   margin-bottom: 20px;
 `;
 
-function splitNumberIntervals(arr) {
-  const numberIntervals = [];
-  let start = arr[0];
-  let end = arr[0];
-  for (let i = 1; i < arr.length; i++) {
-    if (arr[i] === end + 1) {
-      end = arr[i];
-    } else {
-      numberIntervals.push([start, end]);
-      start = arr[i];
-      end = arr[i];
-    }
-  }
-  numberIntervals.push([start, end]);
-  return numberIntervals;
-}
-
-function getNumberIntervals(arr) {
-  const numberRangerArr = [];
-  const numberSet = new Set();
-  const duplicateSet = new Set();
-
-  arr.map((arr) => {
-    const start = arr[0];
-    const end = arr[1] + 1;
-    for (let i = start; i < end; i++) {
-      numberRangerArr.push(i);
-    }
-    return false;
-  });
-  numberRangerArr.forEach((value) => {
-    numberSet.has(value) ? duplicateSet.add(value) : numberSet.add(value);
-  });
-  const maxNumber = Math.max(...numberSet);
-  const numberArr = [];
-  for (let i = 0; i < maxNumber + 1; i++) {
-    numberArr.push(i);
-  }
-
-  const numbers = Array.from(numberSet);
-  const duplicates = Array.from(duplicateSet);
-  const filterNumberRepeat = numberArr.filter((v) => !numbers.includes(v));
-  const overlay = splitNumberIntervals(duplicates);
-  const noIncludes = splitNumberIntervals(filterNumberRepeat);
-  return { overlay, noIncludes };
-}
-
 export default function AgeGroupSelect({
   id,
   setAgeGroupPrice,
@@ -87,8 +41,8 @@ export default function AgeGroupSelect({
   const [startAgeOptions, setStartAgeOptions] = useState(ageOptions);
   const [endAgeOptions, setEndAgeOptions] = useState(ageOptions);
   const ageGroup = ageGroupPrice.map((v) => v.ageGroup);
-  const overlay = getNumberIntervals(ageGroup).overlay;
-  const isOverlay = overlay.flat().some((v) => v !== undefined);
+  const overlap = Utils.getNumberIntervals(ageGroup).overlap;
+  const isOverlap = overlap.flat().some((v) => v !== undefined);
 
   const updateAgeGroupPrice = (newAgeGroup) => {
     const exist = ageGroupPrice.some((p) => p.id === id);
@@ -108,7 +62,7 @@ export default function AgeGroupSelect({
         <Text type="secondary">年齡</Text>
         <Space.Compact size="large">
           <StyledSelect
-            verify={!!isOverlay ? "error" : ""}
+            verify={!!isOverlap ? "error" : ""}
             defaultValue="0"
             options={startAgeOptions}
             onChange={(value) => {
@@ -126,7 +80,7 @@ export default function AgeGroupSelect({
           />
           <StyledInput className="site-input-split" placeholder="～" disabled />
           <StyledSelect
-            verify={!!isOverlay ? "error" : ""}
+            verify={!!isOverlap ? "error" : ""}
             defaultValue="0"
             options={endAgeOptions}
             onChange={(value) => {
@@ -144,7 +98,7 @@ export default function AgeGroupSelect({
           />
         </Space.Compact>
       </Flex>
-      {!!isOverlay && <HightLightText type="danger" text="年齡區間不可重疊" />}
+      {!!isOverlap && <HightLightText type="danger" text="年齡區間不可重疊" />}
     </StyledAgeGroupSelectContainer>
   );
 }
